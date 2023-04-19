@@ -48,7 +48,7 @@ export default new VueRouter({
             path: '/Search/:keyWord?',
             component: Search,
             meta: { show: true },
-            name: 'Search',
+            name: 'search',
             // 路由组件能不能传递props参数
             //布尔值写法
             // props: true,

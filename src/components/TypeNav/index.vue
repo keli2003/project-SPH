@@ -1,7 +1,70 @@
 <template>
   <div class="type-nav">
     <div class="container">
-      <h2 class="all">全部商品分类</h2>
+      <!-- 事件委派|事件委托 -->
+      <div @mouseleave="leaveShow()" @mouseenter="enterShow">
+        <h2 class="all">全部商品分类</h2>
+        <div class="sort" v-show="show">
+          <div class="all-sort-list2" @click="goSearch">
+            <!-- 一级分类  -->
+            <div
+              class="item"
+              v-for="(c1, index) in categoryList"
+              :key="c1.categoryId"
+              :class="{ cur: currentIndex == index }"
+            >
+              <h3 @mouseenter="changeIndex(index)">
+                <a
+                  :data-categoryName="c1.categoryName"
+                  :data-category1Id="c1.categoryId"
+                  >{{ c1.categoryName }}</a
+                >
+                <!-- <router-link to="/search">{{ c1.categoryName }}</router-link> -->
+              </h3>
+              <!-- 二级、三级分类 -->
+              <div
+                class="item-list clearfix"
+                :style="{ display: currentIndex == index ? 'block' : 'none' }"
+              >
+                <div
+                  class="subitem"
+                  v-for="(c2, index) in c1.categoryChild"
+                  :key="c2.categoryId"
+                >
+                  <dl class="fore">
+                    <dt>
+                      <a
+                        :data-categoryName="c2.categoryName"
+                        :data-category2Id="c2.categoryId"
+                        >{{ c2.categoryName }}</a
+                      >
+                      <!-- <router-link to="/search">{{
+                        c2.categoryName
+                      }}</router-link> -->
+                    </dt>
+                    <dd>
+                      <em
+                        v-for="(c3, index) in c2.categoryChild"
+                        :key="c3.categoryId"
+                      >
+                        <a
+                          :data-categoryName="c3.categoryName"
+                          :data-category3Id="c3.categoryId"
+                          >{{ c3.categoryName }}</a
+                        >
+                        <!-- <router-link to="/search">{{
+                          c3.categoryName
+                        }}</router-link> -->
+                      </em>
+                    </dd>
+                  </dl>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <nav class="nav">
         <a href="###">服装城</a>
         <a href="###">美妆馆</a>
@@ -12,45 +75,35 @@
         <a href="###">有趣</a>
         <a href="###">秒杀</a>
       </nav>
-      <div class="sort">
-        <div class="all-sort-list2">
-          <div class="item" v-for="c1 in categoryList" :key="c1.categoryId">
-            <h3>
-              <a href="">{{ c1.categoryName }}</a>
-            </h3>
-            <div class="item-list clearfix">
-              <div
-                class="subitem"
-                v-for="c2 in c1.categoryChild"
-                :key="c2.categoryId"
-              >
-                <dl class="fore">
-                  <dt>
-                    <a href="">{{ c2.categoryName }}</a>
-                  </dt>
-                  <dd>
-                    <em v-for="c3 in c2.categoryChild" :key="c3.categoryId">
-                      <a href="">{{ c3.categoryName }}</a>
-                    </em>
-                  </dd>
-                </dl>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 
 <script>
 import { mapState } from "vuex";
+// 按需引入节流模块
+import throttle from "lodash/throttle";
 export default {
+  data() {
+    return {
+      // 存储用户移上那个一级菜单
+      currentIndex: -1,
+      show: true,
+    };
+  },
   name: "TypeNav",
   //组件挂载完毕，可以向服务器发送请求
   mounted() {
     // 通知Vuex发请求 获取数据 存储于仓库之中
     this.$store.dispatch("categoryList");
+
+    // 当组件挂载成功，使show变为false
+    // 判断当前路由组件是否为Home,如果是就显示 如果不是就隐藏
+    if (this.$route.path != "/Home") {
+      this.show = false;
+    } else {
+      this.show = true;
+    }
   },
   computed: {
     ...mapState({
@@ -61,6 +114,61 @@ export default {
         return state.home.categoryList;
       },
     }),
+  },
+  methods: {
+    // 鼠标进入修改响应式数据currentIndex属性
+    // throttle回调函数不能使用箭头函数 ，this的指向问题
+    changeIndex: throttle(function (index) {
+      // 鼠标移入某一个一级菜单显示的对应索引值
+      this.currentIndex = index;
+      // 正常情况（用户过慢）：鼠标计入，每一个一级分类，都会触发鼠标进入事件
+      // 非正常情况（用户操作很快）：本身全部的一级分类应该触发鼠标进入事件，但是经过测试 只有部分h3触发
+      // 用户行为过快：导致浏览器反应不过来，如果当前回调函数中有一些大量的业务 有可能出现卡顿的现象
+    }, 50),
+    leaveShow() {
+      // 一级分类鼠标移除的事件回调
+      this.currentIndex = -1;
+      if (this.$route.path != "/Home") {
+        this.show = false;
+      }
+    },
+    goSearch(event) {
+      // 最好的解决方案：编程式导航+事件委派
+      // 利用事件委派存在一些问题：1：点击一定是a标签 2：如何获取参数【一级、二级、三级分类的产品的名字、id】
+      // this.$router.push("/search");
+
+      // 获取到当前出发这个事件的节点
+      let element = event.target;
+      console.log(element);
+
+      let { categoryname, category1id, category2id, category3id } =
+        element.dataset;
+      if (categoryname) {
+        // 整理路由跳转的参数
+        let location = { name: "search" };
+        let query = { categoryName: categoryname };
+        // 一级分类、二级分类、三级分类的a标签
+        if (category1id) {
+          query.category1Id = category1id;
+        } else if (category2id) {
+          query.category2Id = category2id;
+        } else {
+          query.category3Id = category3id;
+        }
+
+        // 整理完参数
+        location.query = query;
+        console.log(location);
+        // 路由进行跳转
+        this.$router.push(location);
+      }
+    },
+    // 当鼠标移入的时候，让商品列表进行展示
+    enterShow() {
+      if (this.$route.path != "/Home") {
+        this.show = true;
+      }
+    },
   },
 };
 </script>
@@ -74,7 +182,11 @@ export default {
     margin: 0 auto;
     display: flex;
     position: relative;
-
+    a {
+      &:hover {
+        text-decoration: none;
+      }
+    }
     .all {
       width: 210px;
       height: 45px;
@@ -109,7 +221,7 @@ export default {
       .all-sort-list2 {
         .item {
           h3 {
-            line-height: 30px;
+            line-height: 27px;
             font-size: 14px;
             font-weight: 400;
             overflow: hidden;
@@ -174,12 +286,14 @@ export default {
               }
             }
           }
-
-          &:hover {
-            .item-list {
-              display: block;
-            }
-          }
+        }
+        // 第一种解决方案 使用style样式
+        // .item:hover {
+        //   background-color: skyblue;
+        // }
+        // 第二种解决方案 使用添加类名
+        .cur {
+          background-color: skyblue;
         }
       }
     }
