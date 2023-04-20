@@ -6,8 +6,12 @@
         <!--banner轮播-->
         <div class="swiper-container" id="mySwiper">
           <div class="swiper-wrapper">
-            <div class="swiper-slide">
-              <img src="./images//banner1.jpg" />
+            <div
+              class="swiper-slide"
+              v-for="(carousel, index) in bannerList"
+              :key="carousel.id"
+            >
+              <img :src="carousel.imgUrl" />
             </div>
             <!-- <div class="swiper-slide">
               <img src="./images//banner2.jpg" />
@@ -101,8 +105,48 @@
 </template>
 
 <script>
+// 引入swiper
+import Swiper from "swiper";
+import { mapState } from "vuex";
 export default {
   name: "ListContainer",
+  mounted() {
+    console.log("组件中的mounted");
+    // 派发actions 通过vuex发起ajax请求 将数据存储到仓库当中
+    this.$store.dispatch("getBannerList");
+    // 在new Swiper实例之前，页面中结构必须有【把new Swiper实例放到mounted这里，发现实现不了】
+    // 因为dispatch当中涉及到异步结构 导致v-for遍历的时候结构还没有定型
+
+    console.log("初始化swiper数据");
+
+    setInterval(function () {
+      console.log("swiper初始化");
+      var mySwiper = new Swiper(".swiper-container", {
+        loop: true, // 循环模式选项
+
+        // 如果需要分页器
+        pagination: {
+          el: ".swiper-pagination",
+          // 开分页器按钮，按钮也可以电动，进行轮播图的更换
+          clickable: true,
+        },
+
+        // 如果需要前进后退按钮
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      });
+    }, 2000);
+  },
+  computed: {
+    ...mapState({
+      bannerList: (state) => {
+        console.log(state.home.bannerList, "bannerList");
+        return state.home.bannerList;
+      },
+    }),
+  },
 };
 </script>
 

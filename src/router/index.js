@@ -45,10 +45,11 @@ export default new VueRouter({
             meta: { show: true }
         },
         {
-            path: '/Search/:keyWord?',
+            name: 'search',
+            path: '/search/:keyword?',
             component: Search,
             meta: { show: true },
-            name: 'search',
+
             // 路由组件能不能传递props参数
             //布尔值写法
             // props: true,
@@ -72,7 +73,7 @@ export default new VueRouter({
         // 重定向，项目跑起来以后，可以立马访问首页
 
         {
-            path: '*',
+            path: '/',
             redirect: '/Home'
         }
     ]

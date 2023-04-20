@@ -17,6 +17,13 @@ import store from '@/store'
 // 关闭生产提示
 Vue.config.productionTip = false
 
+// 引入mockserver.js文件
+import '@/mock/mockServer'
+
+// 引入swiper样式
+import 'swiper/css/swiper.css'
+import 'swiper/js/swiper.js'
+
 
 new Vue({
   render: h => h(App),

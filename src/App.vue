@@ -19,6 +19,11 @@ export default {
     Header,
     Footer,
   },
+  mounted() {
+    // 通知Vuex发请求 获取数据 存储于仓库之中
+    // 派发一个actions || 获取商品分类的三级联动的数据
+    this.$store.dispatch("categoryList");
+  },
 };
 </script>
 

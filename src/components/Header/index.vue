@@ -64,24 +64,39 @@ export default {
   methods: {
     // 点击按钮  向search路由发起跳转
     goSearch() {
-      +(
-        // 跳转的同时并进行传参  不要忘0记加斜杠   要有占位符params传参
-        // 第一种形式 字符串类型
-        // this.$router.push('/search/' +this.keyword +'?k='+this.keyword.toUpperCase()),
-        // 第二种形式 模板字符串形式  外层就是字符串 ${} 里面就是js语句
-        // this.$router.push(`/search/${this.keyword}?k=${this.keyword.toUpperCase()}`)
-        // 第三种方案  对象的方式  需要在对应路由中加一个name属性
-        // this.$router.push({name:'search',params:{keyword:this.keyword},query:{k:222}})
-        this.$router.push(
-          {
-            name: "search",
-            params: { keyword: this.keyword || undefined },
-            query: { k: this.keyword.toUpperCase() },
-          },
-          () => {},
-          () => {}
-        )
-      );
+      // 跳转的同时并进行传参  不要忘0记加斜杠   要有占位符params传参
+      // 第一种形式 字符串类型
+      // this.$router.push('/search/' +this.keyword +'?k='+this.keyword.toUpperCase()),
+      // 第二种形式 模板字符串形式  外层就是字符串 ${} 里面就是js语句
+      // this.$router.push(`/search/${this.keyword}?k=${this.keyword.toUpperCase()}`)
+      // 第三种方案  对象的方式  需要在对应路由中加一个name属性
+      // this.$router.push({name:'search',params:{keyword:this.keyword},query:{k:222}})
+      // this.$router.push(
+      //   {
+      //     name: "search",
+      //     params: { keyword: this.keyword || undefined },
+      //   },
+      //   () => {},
+      //   () => {}
+      // );
+      if (this.$route.query) {
+        //代表的是如果有query参数 也带过去
+        let loction = {
+          name: "search",
+          params: { keyword: this.keyword || undefined },
+          // query: { k: this.keyword.toUpperCase() },
+        };
+        loction.query = this.$route.query;
+        this.$router.push(loction);
+      }
+      // let location = {
+      //   name: "search",
+      //   params: { keyword: this.keyword || undefined },
+      // };
+      // if (this.$route.query) {
+      //   location.query = this.$route.query;
+      // }
+      // this.$router.push(location);
     },
   },
   // methods: {
@@ -126,6 +141,8 @@ export default {
   //     //   query: { k: this.keyword.toUpperCase() },
   //     // });
   //     // 4.路由组件能否传递props数据
+  // 下面这种写法可以解决当前这个抛出异常情况的问题，但是将来我们还是会用到push|replace方法进行路由跳转 还是会出现次问题
+  // 因此我们需要从“根”解决这个问题 就是咱们自己重写push|replace方法 push|replace方法 是VueRouter.prototype原型对象提供的方法
   //     this.$router.push({
   //       name: "search",
   //       params: { keyword: this.keyword || undefined },
