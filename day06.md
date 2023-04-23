@@ -1,0 +1,5 @@
+1）复习：
+1.search模块中需要的数据我们从服务器中请求到了，并且存储到vuex中的仓库之中，而且有一些数组数据我们通过getters进行了简化
+getters就是为了简化state数据
+2）来自服务器的数据通过v-for和mapGetters对数据在结构中进行动态渲染
+3）Object.assign：合并参数 在我们三级联动中的id进行点击的时候 与 搜索的时候的数据keyword进行合并 因此我们需要合并参数 Object.assign

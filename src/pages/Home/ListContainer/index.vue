@@ -4,32 +4,7 @@
     <div class="sortList clearfix">
       <div class="center">
         <!--banner轮播-->
-        <div class="swiper-container" id="mySwiper">
-          <div class="swiper-wrapper">
-            <div
-              class="swiper-slide"
-              v-for="(carousel, index) in bannerList"
-              :key="carousel.id"
-            >
-              <img :src="carousel.imgUrl" />
-            </div>
-            <!-- <div class="swiper-slide">
-              <img src="./images//banner2.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images//banner3.jpg" />
-            </div>
-            <div class="swiper-slide">
-              <img src="./images//banner4.jpg" />
-            </div> -->
-          </div>
-          <!-- 如果需要分页器 -->
-          <div class="swiper-pagination"></div>
-
-          <!-- 如果需要导航按钮 -->
-          <div class="swiper-button-prev"></div>
-          <div class="swiper-button-next"></div>
-        </div>
+        <Carousel :list="bannerList" />
       </div>
       <div class="right">
         <div class="news">
@@ -105,48 +80,55 @@
 </template>
 
 <script>
-// 引入swiper
-import Swiper from "swiper";
 import { mapState } from "vuex";
 export default {
   name: "ListContainer",
   mounted() {
-    console.log("组件中的mounted");
     // 派发actions 通过vuex发起ajax请求 将数据存储到仓库当中
     this.$store.dispatch("getBannerList");
     // 在new Swiper实例之前，页面中结构必须有【把new Swiper实例放到mounted这里，发现实现不了】
     // 因为dispatch当中涉及到异步结构 导致v-for遍历的时候结构还没有定型
-
-    console.log("初始化swiper数据");
-
-    setInterval(function () {
-      console.log("swiper初始化");
-      var mySwiper = new Swiper(".swiper-container", {
-        loop: true, // 循环模式选项
-
-        // 如果需要分页器
-        pagination: {
-          el: ".swiper-pagination",
-          // 开分页器按钮，按钮也可以电动，进行轮播图的更换
-          clickable: true,
-        },
-
-        // 如果需要前进后退按钮
-        navigation: {
-          nextEl: ".swiper-button-next",
-          prevEl: ".swiper-button-prev",
-        },
-      });
-    }, 2000);
   },
   computed: {
     ...mapState({
       bannerList: (state) => {
-        console.log(state.home.bannerList, "bannerList");
         return state.home.bannerList;
       },
     }),
   },
+  // 通过watch监听bannerList属性的数值变化
+  // watch: {
+  //   // 监听bannerList数据的变化，因为这条数据发生过变化---由空的数组变为带有四个元素的数组
+  //   bannerList: {
+  //     // 立即监听
+  //     immediate: true,
+  //     handler(newValue, oldValue) {
+  //       // 如果handler方法执行，代表组件实例对象上这个属性值已经存在了【数组中四个元素】
+  //       // 当前这个函数执行，只能保证bannerList数据已经有了，但是没有办法保证v-for已经执行结束了
+  //       // v-for执行完毕，才有结构【你现在watch当中没有办法保证】
+  //       // nextTick:在下次DOM更新 循环结束之后 （v-for遍历结构之后）执行回调函数 在修改数据之后立即使用这个方法 获取更新后的DOM
+  //       this.$nextTick(() => {
+  //         // 当你执行这个回调之后，保证服务器数据回来了，v-for执行完毕【一定是轮播图的结构存在了】
+  //         var mySwiper = new Swiper(this.$refs.mySwiper, {
+  //           loop: true, // 循环模式选项
+  //           autoplay: true, //自动播放轮播图
+  //           // 如果需要分页器
+  //           pagination: {
+  //             el: ".swiper-pagination",
+  //             // 开分页器按钮，按钮也可以电动，进行轮播图的更换
+  //             clickable: true,
+  //           },
+
+  //           // 如果需要前进后退按钮
+  //           navigation: {
+  //             nextEl: ".swiper-button-next",
+  //             prevEl: ".swiper-button-prev",
+  //           },
+  //         });
+  //       });
+  //     },
+  //   },
+  // },
 };
 </script>
 
