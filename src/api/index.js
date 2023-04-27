@@ -31,7 +31,10 @@ export const reqGetFloorList = () => mockRequests.get('/floor')
 */
 // 当前这个接口 给服务器传递参数params 至少是一个空对象
 export const reqGetSearchInfo = (data) => https({
-    url: '/list',
-    method: 'post',
-    data: data
+  url: '/list',
+  method: 'post',
+  data: data
 })
+
+// 获取产品信息的接口
+export const reqGoodsInfo = (skuId) => https({ url: `/item/${skuId}`, method: 'get' });

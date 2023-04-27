@@ -150,6 +150,13 @@ export default {
   //     });
   //   },
   // },
+
+  mounted() {
+    // 通过全局事件总线将关键字置空
+    this.$bus.$on("clear", () => {
+      this.keyword = "";
+    });
+  },
 };
 </script>
 

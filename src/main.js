@@ -5,9 +5,12 @@ import App from './App.vue'
 import TypeNav from '@/components/TypeNav'
 //轮播图全局组件
 import Carousel from '@/components/Carousel'
+//分页器的全局组件
+import Pagination from '@/components/Pagination'
 // 第一个参数是组件的名字 第二个组件是组件的对象
 Vue.component(TypeNav.name, TypeNav)
 Vue.component(Carousel.name, Carousel)
+Vue.component(Pagination.name, Pagination)
 // 引入路由
 import router from '@/router';
 // 引入仓库
@@ -37,4 +40,9 @@ new Vue({
   router,
   // 注册仓库， 组件的实例对象身上会多出一个$store的对象
   store,
+
+  // 全局事件总线$bus的配置
+  beforeCreate() {
+    Vue.prototype.$bus = this
+  }
 }).$mount('#app')
