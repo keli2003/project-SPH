@@ -43,6 +43,6 @@ new Vue({
 
   // 全局事件总线$bus的配置
   beforeCreate() {
-    Vue.prototype.$bus = this
-  }
+    Vue.prototype.$bus = this // 安装全局事件总线 $bus就是当前$vm
+  },
 }).$mount('#app')

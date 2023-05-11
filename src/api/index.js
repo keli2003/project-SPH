@@ -38,3 +38,6 @@ export const reqGetSearchInfo = (data) => https({
 
 // 获取产品信息的接口
 export const reqGoodsInfo = (skuId) => https({ url: `/item/${skuId}`, method: 'get' });
+
+// 讲产品添加到购物车中，（获取某一个产品的个数）
+export const reqAddOrUpdateShopCar = (skuId, skuNum) => https({ url: `/cart/addToCart/${skuId}/${skuNum}`, method: 'post' })
