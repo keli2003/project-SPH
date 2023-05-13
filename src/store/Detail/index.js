@@ -1,8 +1,12 @@
 import { reqGoodsInfo, reqAddOrUpdateShopCar } from "@/api"
+// 封装游客身份的函数uiid （只要存在就不能变化）
+import { getUUID } from '@/utils/uuid_token'
 
 const state = {
     //产品详细的数据
     goodInfo: {},
+    // 游客临时身份
+    uuid_token: getUUID()
 
 
 }
@@ -20,6 +24,7 @@ const actions = {
         }
     },
     // 将产品添加到购物车中
+    // 带有async函数的返回值一定是一个Promise对象
     async addOrUpdateShopCart({ commit }, { skuId, skuNum }) {
         // 加入购物车返回的结果
         // 加入购物车以后，（发送请求） 前台将参数给服务器

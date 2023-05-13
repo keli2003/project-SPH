@@ -6,6 +6,7 @@ import nprogress from "nprogress";
 // 引入进度条样式
 import 'nprogress/nprogress.css'
 // start进度条开始  done进度条消失
+import store from "@/store";
 
 
 
@@ -25,8 +26,13 @@ https.interceptors.request.use((config) => {
     // 进度条开始
     nprogress.start()
 
+    if (store.state.detail.uuid_token) {
+        // 请求头添加一个字段（userTempId）
+        config.headers.userTempId = store.state.detail.uuid_token
+    }
     // config：配置对象，里面有一个非常重要的属性 headers 请求头
     return config
+
 
 })
 

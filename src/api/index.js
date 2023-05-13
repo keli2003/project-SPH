@@ -41,3 +41,12 @@ export const reqGoodsInfo = (skuId) => https({ url: `/item/${skuId}`, method: 'g
 
 // 讲产品添加到购物车中，（获取某一个产品的个数）
 export const reqAddOrUpdateShopCar = (skuId, skuNum) => https({ url: `/cart/addToCart/${skuId}/${skuNum}`, method: 'post' })
+
+// 获取购物车列表数据接口
+export const reqCartList = () => https({ url: '/cart/cartList', method: 'get' })
+
+// 删除购物车产品的接口
+export const reqDeleteCartById = (skuId) => https({ url: `/cart/deleteCart/${skuId}`, method: 'delete' })
+
+// 修改产品的选中状态
+export const reqUpdateCheckedById = (skuId, isChecked) => https({ url: `/cart/checkCart/${skuId}/${isChecked}`, method: 'get' })

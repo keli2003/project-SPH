@@ -403,11 +403,20 @@ export default {
       // 1派发actions请求  将产品存储到数据库中（通知服务器）
       // 2.服务器请求成功--进行路由的跳转 传递参数
       // 3.服务器请求失败---通知用户
-
       try {
         await this.$store.dispatch("addOrUpdateShopCart", {
           skuId: this.$route.params.skuid,
-          kuNum: this.skuNum,
+          skuNum: this.skuNum,
+        });
+        // 成功进行路由的跳转
+        // 在路由传参的同时将产品的信息传递给下一级路由组件
+        // 一些简单的数据skuNum 可以通过query形式传递给路由组件
+        // 产品信息的数据【比较复杂：skuInfo】通过会话存储（不持久化 会话结束数据消失）
+        // 本地存储|会话存储 一般存储的是字符串
+        sessionStorage.setItem("SKUINFO", JSON.stringify(this.skuInfo));
+        this.$router.push({
+          name: "AddCartSuccess",
+          query: { skuNum: this.skuNum },
         });
       } catch (error) {
         alert(error.message);

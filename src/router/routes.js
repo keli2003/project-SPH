@@ -5,6 +5,8 @@ import Search from '@/pages/Search'
 import Login from '@/pages/Login'
 import Resigter from '@/pages/Resigter'
 import Detail from '@/pages/Detail'
+import AddCartSuccess from '@/pages/AddCartSuccess'
+import ShopCart from '@/pages/ShopCart'
 export default [
     {
         path: '/Home',
@@ -48,6 +50,20 @@ export default [
         name: 'Detail',
         path: '/detail/:skuid',
         component: Detail,
+        meta: { show: true }
+    },
+    // 添加购物车路由
+    {
+        name: 'AddCartSuccess',
+        path: '/addcartsuccess',
+        component: AddCartSuccess,
+        meta: { show: true }
+    },
+    //购物车模块路由
+    {
+        name: 'ShopCart',
+        path: '/shopcart',
+        component: ShopCart,
         meta: { show: true }
     }
 ]
