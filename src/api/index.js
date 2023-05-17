@@ -50,3 +50,12 @@ export const reqDeleteCartById = (skuId) => https({ url: `/cart/deleteCart/${sku
 
 // 修改产品的选中状态
 export const reqUpdateCheckedById = (skuId, isChecked) => https({ url: `/cart/checkCart/${skuId}/${isChecked}`, method: 'get' })
+
+// 获取验证码的接口
+export const reqGetCode = (phone) => https({ url: `/user/passport/sendCode/${phone}`, method: 'get' })
+
+//获取用户注册的接口
+export const reqUserRegister = (data) => https({ url: `/user/passport/register`, data, method: 'post' })
+
+// 获取用户登录的接口
+export const reqUserLogin = (data) => https({ url: `user/passport/login`, data, method: 'post' })

@@ -213,6 +213,7 @@ export default {
     }
 
     .sort {
+      display: block;
       position: absolute;
       left: 0;
       top: 45px;

@@ -22,6 +22,7 @@ const https = axios.create({
 
 // 请求拦截器：在发送请求的时候 请求拦截器可以拦截到 可以在请求之前做一些事情
 
+// 请求头
 https.interceptors.request.use((config) => {
     // 进度条开始
     nprogress.start()

@@ -68,11 +68,16 @@
     </div>
     <div class="cart-tool">
       <div class="select-all">
-        <input class="chooseAll" type="checkbox" :checked="isAllChecked" />
+        <input
+          class="chooseAll"
+          type="checkbox"
+          :checked="isAllChecked && cartInfoList.lenght >= 0"
+          @change="updateAllCartChecked"
+        />
         <span>全选</span>
       </div>
       <div class="option">
-        <a href="#none">删除选中的商品</a>
+        <a @click="deleteAllCheckedCart">删除选中的商品</a>
         <a href="#none">移到我的关注</a>
         <a href="#none">清除下柜商品</a>
       </div>
@@ -110,7 +115,6 @@ export default {
       // cart是产品的id 操作的是哪个产品
       // console.log("派发actions，通知服务器修改个数", type, disNum, cart);
       // 向服务器发送请求 修改数量
-
       switch (type) {
         case "add":
           disNum = 1;
@@ -162,6 +166,29 @@ export default {
           skuId: cart.skuId,
           isChecked,
         });
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+    // 删除全部选中的商品
+    async deleteAllCheckedCart() {
+      try {
+        // 派发actions请求
+        await this.$store.dispatch("deleteAllCeheckedCart");
+        // 重新刷新购物车列表
+        this.getData();
+      } catch (error) {
+        alert(error.message);
+      }
+    },
+    // 修改全部商品的选中状态
+    async updateAllCartChecked(event) {
+      // console.log(checked);
+      try {
+        let isChecked = event.target.checked ? "1" : "0";
+        // 派发actions请求
+        await this.$store.dispatch("updateAllCartIsChecked", isChecked);
         this.getData();
       } catch (error) {
         alert(error.message);

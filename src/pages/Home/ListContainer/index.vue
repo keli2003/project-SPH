@@ -204,7 +204,8 @@ export default {
           width: 25%;
 
           .list-item {
-            background-image: url(./images/icons.png);
+            // 可以使用~@代替../../
+            background-image: url(~@/assets/images/icons.png);
             width: 61px;
             height: 40px;
             display: block;
