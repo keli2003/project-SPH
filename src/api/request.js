@@ -31,6 +31,11 @@ https.interceptors.request.use((config) => {
         // 请求头添加一个字段（userTempId）
         config.headers.userTempId = store.state.detail.uuid_token
     }
+
+    // 需要携带token给服务器 给请求头设置token
+    if (store.state.User.token) {
+        config.headers.token = store.state.User.token
+    }
     // config：配置对象，里面有一个非常重要的属性 headers 请求头
     return config
 

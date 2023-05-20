@@ -7,6 +7,7 @@ import Resigter from '@/pages/Register'
 import Detail from '@/pages/Detail'
 import AddCartSuccess from '@/pages/AddCartSuccess'
 import ShopCart from '@/pages/ShopCart'
+import Trade from '@/pages/Trade'
 export default [
     {
         path: '/Home',
@@ -64,6 +65,13 @@ export default [
         name: 'ShopCart',
         path: '/shopcart',
         component: ShopCart,
+        meta: { show: true }
+    },
+    //商品结算页路由
+    {
+        name: 'Trade',
+        path: '/trade',
+        component: Trade,
         meta: { show: true }
     }
 ]

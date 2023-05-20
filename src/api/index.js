@@ -59,3 +59,15 @@ export const reqUserRegister = (data) => https({ url: `/user/passport/register`,
 
 // 获取用户登录的接口
 export const reqUserLogin = (data) => https({ url: `user/passport/login`, data, method: 'post' })
+
+//获取用户登录的信息【需要带着用户的token向服务器要用户信息】
+export const reqUserInfo = () => https({ url: '/user/passport/auth/getUserInfo', method: 'get' })
+
+// 退出登录
+export const reqLogout = () => https({ url: '/user/passport/logout', method: 'get' })
+
+// 获取用户地址信息的接口
+export const reqAddress = () => https({ url: '/user/userAddress/auth/findUserAddressList', method: 'get' })
+
+// 获取商品订单交易接口
+export const reqOrder = () => https({ url: '/order/auth/trade', method: 'get' })
