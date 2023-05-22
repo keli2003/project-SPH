@@ -7,10 +7,17 @@ import TypeNav from '@/components/TypeNav'
 import Carousel from '@/components/Carousel'
 //分页器的全局组件
 import Pagination from '@/components/Pagination'
+// 引入elementui
+import { Button, MessageBox } from 'element-ui'
 // 第一个参数是组件的名字 第二个组件是组件的对象
 Vue.component(TypeNav.name, TypeNav)
 Vue.component(Carousel.name, Carousel)
 Vue.component(Pagination.name, Pagination)
+// 注册为全局组件
+Vue.component(Button.name, Button)
+// elementui 另外的一种注册方式是 挂载到原型对象身上 
+Vue.prototype.$msgbox = MessageBox;
+Vue.prototype.$alert = MessageBox.alert;
 // 引入路由
 import router from '@/router';
 // 引入仓库
@@ -29,6 +36,10 @@ import '@/mock/mockServer'
 // 引入swiper css样式
 import 'swiper/css/swiper.css'
 
+// 统一接口api文件夹里面全部的请求函数
+// 统一引入
+import * as API from '@/api'
+
 // 测试接口
 // import { reqGetSearchInfo } from '@/api/index'
 // console.log(reqGetSearchInfo({}));
@@ -44,5 +55,6 @@ new Vue({
   // 全局事件总线$bus的配置
   beforeCreate() {
     Vue.prototype.$bus = this // 安装全局事件总线 $bus就是当前$vm
+    Vue.prototype.$API = API
   },
 }).$mount('#app')

@@ -71,3 +71,12 @@ export const reqAddress = () => https({ url: '/user/userAddress/auth/findUserAdd
 
 // 获取商品订单交易接口
 export const reqOrder = () => https({ url: '/order/auth/trade', method: 'get' })
+
+//提交订单的接口
+export const reqSubmitOrder = (tradeNo, data) => https({ url: `/order/auth/submitOrder?tradeNo=${tradeNo}`, data, method: 'post' })
+
+// 查询支付信息
+export const reqPayInfo = (orderId) => https({ url: `/payment/weixin/createNative/${orderId}`, method: 'get' })
+
+// 获取支付订单的状态
+export const reqPayStatus = (orderId) => https({ url: `/payment/weixin/queryPayStatus/${orderId}`, method: 'get' })

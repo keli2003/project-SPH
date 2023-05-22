@@ -71,7 +71,7 @@
         <input
           class="chooseAll"
           type="checkbox"
-          :checked="isAllChecked && cartInfoList.lenght >= 0"
+          :checked="isCartChecked && cartInfoList.length > 0"
           @change="updateAllCartChecked"
         />
         <span>全选</span>
@@ -209,8 +209,12 @@ export default {
       return sum;
     },
     // 判断底部复选框是否选中
-    isAllChecked() {
-      return this.cartInfoList.every((item) => item.isChecked == 1);
+    isCartChecked() {
+      //购物车里面的数据进行过滤(勾选)，如果勾选的商品与购物车商品总数相等。全选勾选！相反不够！！！
+      return (
+        this.cartInfoList.filter((item) => item.isChecked == "1").length ===
+        this.cartInfoList.length
+      );
     },
   },
 };

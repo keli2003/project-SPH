@@ -8,6 +8,12 @@ import Detail from '@/pages/Detail'
 import AddCartSuccess from '@/pages/AddCartSuccess'
 import ShopCart from '@/pages/ShopCart'
 import Trade from '@/pages/Trade'
+import Pay from '@/pages/Pay'
+import PaySuccess from '@/pages/PaySuccess'
+import Center from '@/pages/Center'
+// 引入二级路由
+import MyOrder from '@/pages/Center/myOrder'
+import GroupOrder from '@/pages/Center/groupOrder'
 export default [
     {
         path: '/Home',
@@ -73,5 +79,41 @@ export default [
         path: '/trade',
         component: Trade,
         meta: { show: true }
-    }
+    },
+    // 提交订单
+    {
+        name: 'Pay',
+        path: '/pay',
+        component: Pay,
+        meta: { show: true }
+    },
+    //支付成功的路由
+    {
+        name: 'PaySuccess',
+        path: '/paysuccess',
+        component: PaySuccess,
+        meta: { show: true }
+    },
+    // 查看订单路由
+    {
+        name: 'Center',
+        path: '/center',
+        component: Center,
+        meta: { show: true },
+        // 二级路由
+        children: [
+            {
+                path: 'myOrder',
+                component: MyOrder,
+            }, {
+                path: 'groupOrder',
+                component: GroupOrder
+            }, {
+                // 重定向，访问center路由显示myOrder组件
+                path: '/',
+                redirect: '/center/myOrder'
+            }
+        ]
+    },
+
 ]
