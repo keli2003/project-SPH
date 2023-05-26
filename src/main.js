@@ -44,7 +44,25 @@ import * as API from '@/api'
 // import { reqGetSearchInfo } from '@/api/index'
 // console.log(reqGetSearchInfo({}));
 
+// 引入图片懒加载文件
+import VueLazyload from 'vue-lazyload';
 
+// 引入图片
+import atm from '@/assets/loading.gif'
+Vue.use(VueLazyload, {
+  // 懒加载默认的图片
+  loading: atm
+})
+
+// 引入自定义插件
+import myPlugins from './plugins/myPlugins'
+
+Vue.use(myPlugins, {
+  // name: '张三'
+  name: 'upper'
+})
+// 引入表单验证的插件
+import '@/plugins/Validate'
 new Vue({
   render: h => h(App),
   // 注册路由 低下的写法省略了key[router小写]

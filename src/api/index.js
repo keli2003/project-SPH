@@ -80,3 +80,7 @@ export const reqPayInfo = (orderId) => https({ url: `/payment/weixin/createNativ
 
 // 获取支付订单的状态
 export const reqPayStatus = (orderId) => https({ url: `/payment/weixin/queryPayStatus/${orderId}`, method: 'get' })
+
+// 获取订单列表 
+// /api/order/auth/{page}/{limit} get请求
+export const reqMyOrderList = (page, limit) => https({ url: `order/auth/${page}/${limit}`, method: 'get' })

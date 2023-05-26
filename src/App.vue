@@ -1,5 +1,7 @@
 <template>
   <div id="app">
+    <!-- 自定义指令的使用 -->
+    <!-- <h1 v-upper="msg"></h1> -->
     <Header />
     <!-- 路由组件出口的地方 -->
     <router-view></router-view>
@@ -15,6 +17,11 @@ import Footer from "./components/Footer/index.vue";
 
 export default {
   name: "App",
+  data() {
+    return {
+      msg: "abc",
+    };
+  },
   components: {
     Header,
     Footer,

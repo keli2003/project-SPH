@@ -76,7 +76,7 @@
                   <div class="p-img">
                     <!-- 使用声明式导航跳转到详情页并带入该产品的id -->
                     <router-link :to="`/detail/${goods.id}`">
-                      <img :src="goods.defaultImg" />
+                      <img v-lazy="goods.defaultImg" />
                     </router-link>
                   </div>
                   <div class="price">
